@@ -78,3 +78,19 @@ for dist in district_select.options:
                 if dict_download[VILLAGE_DIR] == 1:
                     continue
             time.sleep(2)
+            each_village.click()
+            driver.execute_script("SearchIngrid();")
+            try:
+                WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'MainTable')))
+                table_of_records = driver.find_element(By.ID , 'MainTable')
+                try :
+                    rows = table_of_records.find_elements(By.TAG_NAME, "tr")
+                    if len(rows) == 0:
+                        print('no records in this village')
+                        continue
+                except  Exception as  e:
+                    print('row does not exist ')
+                    continue
+            except Exception as  e:
+                print('table not found  exception')
+                continue
