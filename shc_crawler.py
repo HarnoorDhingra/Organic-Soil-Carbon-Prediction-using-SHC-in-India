@@ -24,6 +24,5 @@ try:
 except (OSError, IOError) as e:
     my_dict = {}
     save_obj( my_dict , 'to_download')
-
 BASE_DIR = os.getcwd()
-print(BASE_DIR)
+
