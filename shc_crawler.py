@@ -18,3 +18,12 @@ def save_obj(obj, name ):
 def load_obj(name ):
     with open(name + '.pkl', 'rb') as f:
         return pickle.load(f)
+
+try:
+    dict_download = load_obj('to_download')
+except (OSError, IOError) as e:
+    my_dict = {}
+    save_obj( my_dict , 'to_download')
+
+BASE_DIR = os.getcwd()
+print(BASE_DIR)
