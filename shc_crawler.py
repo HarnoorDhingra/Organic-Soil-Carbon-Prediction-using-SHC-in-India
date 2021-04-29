@@ -37,3 +37,9 @@ driver.get("https://soilhealth.dac.gov.in/HealthCard/HealthCard/HealthCardPNew")
 
 state_select = Select(driver.find_element_by_id('State_cd2'))
 state_index = 8
+state_select.options[state_index].click()
+STATE_DIR  = os.path.join( BASE_DIR  ,state_select.options[state_index].text)
+try:
+    os.mkdir(STATE_DIR)
+except FileExistsError as e:
+    pass
