@@ -54,3 +54,9 @@ for dist in district_select.options:
         subdistrict_select = Select(driver.find_element_by_id('Sub_dis2'))
         time.sleep(3)
         dist.click()
+
+        for sub_dist in subdistrict_select.options:
+        if sub_dist.text == '--SELECT--':
+            continue
+
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'village_cd2')))
