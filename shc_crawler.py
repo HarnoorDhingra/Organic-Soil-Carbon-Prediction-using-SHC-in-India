@@ -43,3 +43,14 @@ try:
     os.mkdir(STATE_DIR)
 except FileExistsError as e:
     pass
+
+district_select = Select(driver.find_element_by_id('Dist_cd2'))
+
+for dist in district_select.options:
+    if dist.text =='--SELECT--':
+        continue
+
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'Sub_dis2')))
+        subdistrict_select = Select(driver.find_element_by_id('Sub_dis2'))
+        time.sleep(3)
+        dist.click()
