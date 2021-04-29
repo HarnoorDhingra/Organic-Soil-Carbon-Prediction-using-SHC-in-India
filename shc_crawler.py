@@ -94,3 +94,67 @@ for dist in district_select.options:
             except Exception as  e:
                 print('table not found  exception')
                 continue
+
+while(True):
+    time.sleep(4)
+    try :
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'MainTable')))
+        table_of_records = driver.find_element(By.ID , 'MainTable')
+        rows = table_of_records.find_elements(By.TAG_NAME, "tr")
+        
+        for row in rows:
+            try :
+                cols = row.find_elements(By.TAG_NAME, "td")
+                if len(cols) <= 1:
+                    continue
+                print([ col.text for col in cols  ])
+                try:
+                    cols[9].click()
+                    time.sleep(22)
+                    try :
+                        iframe = driver.find_elements_by_tag_name('iframe')[0]
+
+                        driver.switch_to.frame(iframe)
+
+                        butt = driver.find_element_by_id('ReportViewer1_ctl05_ctl04_ctl00_Menu')
+                        options = butt.find_elements_by_tag_name('a')
+                        driver.execute_script(options[7].get_attribute('onclick'))
+                        num_of_tabs = len(driver.window_handles)
+
+
+                        driver.switch_to.default_content()
+
+                        time.sleep(2)
+                        original_window_list = driver.window_handles
+                        original_window = original_window_list[0]
+                        for  handle in original_window_list:
+                            if(handle != original_window):
+                                driver.switch_to.window(handle)
+                                driver.close()
+                        driver.switch_to.window(original_window)
+
+
+
+                    except Exception as e:
+                        print('button exception')
+                        print(e)
+                except Exception as e:
+                        print('print button exception')
+                        print(e)
+            except Exception as e :
+                print('cols exception innner')
+                print(e)
+    except Exception as e:
+        dict_download[VILLAGE_DIR] = 0
+        save_obj(dict_download, 'to_download')
+        print(' next button click row exception  ')
+        print(e)
+    try :
+        driver.find_element_by_link_text('Next >').click()
+
+    except :
+        dict_download[VILLAGE_DIR] = 1
+        save_obj(dict_download, 'to_download')
+        for file in glob.glob("*.xml"):
+            shutil.move(file,VILLAGE_DIR)
+        break
