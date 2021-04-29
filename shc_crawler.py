@@ -49,14 +49,32 @@ district_select = Select(driver.find_element_by_id('Dist_cd2'))
 for dist in district_select.options:
     if dist.text =='--SELECT--':
         continue
-
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'Sub_dis2')))
-        subdistrict_select = Select(driver.find_element_by_id('Sub_dis2'))
-        time.sleep(3)
-        dist.click()
-
-        for sub_dist in subdistrict_select.options:
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'Sub_dis2')))
+    subdistrict_select = Select(driver.find_element_by_id('Sub_dis2'))
+    time.sleep(3)
+    dist.click()
+    for sub_dist in subdistrict_select.options:
         if sub_dist.text == '--SELECT--':
             continue
-
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'village_cd2')))
+        village_select = Select(driver.find_element_by_id('village_cd2'))
+        time.sleep(3)
+        sub_dist.click()
+        for each_village in village_select.options:
+            try:
+                if each_village.text == '--SELECT--':
+                    continue
+            except:
+                dict_download[VILLAGE_DIR] = 0
+                save_obj(dict_download, 'to_download')
+            VILLAGE_DIR = os.path.join(STATE_DIR , dist.text , sub_dist.text , each_village.text)
+            try :
+                os.makedirs(VILLAGE_DIR)
+            except FileExistsError as e :
+                pass
+
+            print( ' district is %s  sub_district is %s village is %s  ' %(dist.text , sub_dist.text , each_village.text)  )
+            if VILLAGE_DIR in dict_download:
+                if dict_download[VILLAGE_DIR] == 1:
+                    continue
+            time.sleep(2)
