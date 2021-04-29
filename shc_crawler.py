@@ -34,3 +34,6 @@ profile.set_preference('browser.helperApps.neverAsk.saveToDisk', 'text/xml')
 profile.set_preference("general.warnOnAboutConfig", False)
 driver = webdriver.Firefox(profile)
 driver.get("https://soilhealth.dac.gov.in/HealthCard/HealthCard/HealthCardPNew")
+
+state_select = Select(driver.find_element_by_id('State_cd2'))
+state_index = 8
