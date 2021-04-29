@@ -27,3 +27,10 @@ except (OSError, IOError) as e:
 BASE_DIR = os.getcwd()
 # print(BASE_DIR)
 
+profile.set_preference('browser.download.folderList', 2)
+profile.set_preference('browser.download.manager.showWhenStarting', False)
+profile.set_preference('browser.download.dir', BASE_DIR)
+profile.set_preference('browser.helperApps.neverAsk.saveToDisk', 'text/xml')
+profile.set_preference("general.warnOnAboutConfig", False)
+driver = webdriver.Firefox(profile)
+driver.get("https://soilhealth.dac.gov.in/HealthCard/HealthCard/HealthCardPNew")
